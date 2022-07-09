@@ -1,0 +1,7 @@
+.base-btn {
+  @apply p-0 bg-transparent border-none cursor-pointer;
+
+  &:disabled {
+    @apply cursor-default;
+  }
+}

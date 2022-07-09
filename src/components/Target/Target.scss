@@ -1,0 +1,14 @@
+.target {
+  .target__info {
+    @apply mt-1 flex justify-between;
+  }
+
+  .target__collected,
+  .target__goal {
+    @apply font-semibold text-green-700;
+  }
+
+  .target__action {
+    @apply mt-6 flex justify-end;
+  }
+}

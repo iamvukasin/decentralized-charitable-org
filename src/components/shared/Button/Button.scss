@@ -1,0 +1,19 @@
+.button {
+  @apply px-7 py-2 rounded-md;
+
+  &.button--primary {
+    @apply bg-blue-500 text-white border border-solid border-blue-700;
+
+    &:hover {
+      @apply bg-blue-600;
+    }
+  }
+
+  &.button--neutral {
+    @apply bg-slate-50 text-slate-600 border border-solid border-slate-300;
+
+    &:hover {
+      @apply bg-slate-200;
+    }
+  }
+}

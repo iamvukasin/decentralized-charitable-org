@@ -1,0 +1,15 @@
+.target-card {
+  @apply p-8 rounded-lg border border-solid border-slate-300;
+
+  &:hover {
+    @apply shadow-lg;
+  }
+
+  .target-card__title {
+    @apply mb-3 text-3xl font-semibold;
+  }
+
+  .target-card__description {
+    @apply mb-6;
+  }
+}
