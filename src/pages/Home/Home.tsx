@@ -1,8 +1,9 @@
-import { TargetCard, TargetCardsGrid } from '../../components';
+import { NavigationBar, TargetCard, TargetCardsGrid } from '../../components';
 import './Home.scss';
 
 const Home = () => (
   <div className="home">
+    <NavigationBar />
     <div className="home__content">
       <TargetCardsGrid>
         <TargetCard title="test" description="lorem ipsum" />

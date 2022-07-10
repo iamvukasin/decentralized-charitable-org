@@ -1,9 +1,11 @@
+import NavigationBar from './NavigationBar';
 import { BaseButton, Button, ProgressBar } from './shared';
 import Target from './Target';
 import TargetCard from './TargetCard';
 import TargetCardsGrid from './TargetCardsGrid';
+import Wallet from './Wallet';
 
-export { Target, TargetCard, TargetCardsGrid };
+export { NavigationBar, Target, TargetCard, TargetCardsGrid, Wallet };
 
 // Shared components
 export { BaseButton, Button, ProgressBar };

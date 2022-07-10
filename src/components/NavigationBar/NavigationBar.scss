@@ -1,0 +1,7 @@
+.navigation-bar {
+  @apply h-16 px-6 py-3 flex items-center justify-between border-b border-slate-300 shadow-md;
+
+  .navigation-bar__title {
+    @apply text-3xl font-bold;
+  }
+}

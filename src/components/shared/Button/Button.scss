@@ -1,5 +1,5 @@
 .button {
-  @apply px-7 py-2 rounded-md;
+  @apply px-7 py-2 rounded-md font-semibold;
 
   &.button--primary {
     @apply bg-blue-500 text-white border border-solid border-blue-700;
