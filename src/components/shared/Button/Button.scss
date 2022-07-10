@@ -16,4 +16,12 @@
       @apply bg-slate-200;
     }
   }
+
+  &.button--disabled {
+    @apply bg-slate-300 text-slate-600 border border-solid border-slate-400 cursor-default;
+
+    &:hover {
+      @apply bg-slate-300;
+    }
+  }
 }

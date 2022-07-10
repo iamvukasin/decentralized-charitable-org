@@ -1,15 +1,20 @@
-import { FC, memo } from 'react';
-import { Button, ProgressBar } from '../shared';
+import { FC, memo, useMemo } from 'react';
+import { Button, LinkButton, ProgressBar } from '../shared';
 import './Target.scss';
 
 interface TargetProps {
+  id: string;
   collected: number;
   goal: number;
   currency: string;
+  onDonate?: () => void;
 }
 
 const Target: FC<TargetProps> = props => {
-  const { collected, goal, currency } = props;
+  const { id, collected, goal, currency, onDonate } = props;
+
+  const isFunded = collected >= goal;
+  const buttonLabel = isFunded ? 'Funded' : 'Donate';
 
   return (
     <div className="target">
@@ -23,9 +28,15 @@ const Target: FC<TargetProps> = props => {
         </span>
       </div>
       <div className="target__action">
-        <Button variant="primary" onClick={() => {}}>
-          Donate
-        </Button>
+        {onDonate ? (
+          <Button variant="primary" disabled={isFunded} onClick={onDonate}>
+            {buttonLabel}
+          </Button>
+        ) : (
+          <LinkButton variant="primary" to={`/donate/${id}`}>
+            {buttonLabel}
+          </LinkButton>
+        )}
       </div>
     </div>
   );

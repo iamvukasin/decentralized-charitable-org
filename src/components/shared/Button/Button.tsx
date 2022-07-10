@@ -4,15 +4,21 @@ import './Button.scss';
 
 type ButtonVariant = 'primary' | 'neutral';
 
-interface ButtonProps extends BaseButtonProps {
+export interface ButtonStyleProps {
   variant?: ButtonVariant;
+  disabled?: boolean;
 }
 
+type ButtonProps = BaseButtonProps & ButtonStyleProps;
+
 const Button: FC<ButtonProps> = props => {
-  const { variant = 'primary', className = '', onClick, children } = props;
+  const { variant = 'primary', disabled = false, className = '', onClick, children } = props;
 
   return (
-    <BaseButton className={`button button--${variant} ${className}`} onClick={onClick}>
+    <BaseButton
+      className={`button button--${variant} ${disabled ? 'button--disabled' : ''} ${className}`}
+      onClick={onClick}
+    >
       {children}
     </BaseButton>
   );

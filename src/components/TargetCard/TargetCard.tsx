@@ -1,21 +1,19 @@
 import { FC, memo } from 'react';
+import { DonationTarget } from '../../interfaces';
 import Target from '../Target';
 
 import './TargetCard.scss';
 
-interface TargetCardProps {
-  title: string;
-  description: string;
-}
+type TargetCardProps = DonationTarget;
 
 const TargetCard: FC<TargetCardProps> = props => {
-  const { title, description } = props;
+  const { id, title, description, collected, goal } = props;
 
   return (
     <div className="target-card">
       <h2 className="target-card__title">{title}</h2>
       <p className="target-card__description">{description}</p>
-      <Target collected={100} goal={200} currency="ETH" />
+      <Target id={id} collected={collected} goal={goal} currency="ETH" />
     </div>
   );
 };
