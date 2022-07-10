@@ -1,17 +1,24 @@
 import { FC } from 'react';
-import { Target } from '../../components';
+import { DonateBox } from '../../components';
+import { DonationTarget } from '../../interfaces';
 import './Donate.scss';
 
 const Donate: FC = () => {
+  const target: DonationTarget = {
+    id: '1',
+    title: 'Title',
+    description: 'Lorem ipsum',
+    collected: 1,
+    goal: 4,
+  };
+
   return (
     <div className="donate">
       <div className="donate__info">
-        <h1 className="donate__title">Title</h1>
-        <p className="donate__description">Lorem ipsum</p>
+        <h1 className="donate__title">{target.title}</h1>
+        <p className="donate__description">{target.description}</p>
       </div>
-      <div className="donate__side-box">
-        <Target id="1" collected={2.5} goal={6} currency="ETH" onDonate={() => {}} />
-      </div>
+      <DonateBox target={target} />
     </div>
   );
 };
