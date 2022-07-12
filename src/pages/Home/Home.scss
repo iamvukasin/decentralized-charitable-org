@@ -1,3 +1,11 @@
 .home {
-  @apply p-4;
+  @apply p-4 flex flex-col items-center flex-1;
+
+  .home__loading-container {
+    @apply h-full flex items-center;
+  }
+
+  .home__targets-grid {
+    @apply w-full flex-1;
+  }
 }

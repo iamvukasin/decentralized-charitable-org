@@ -1,16 +1,17 @@
 import { FC } from 'react';
+import { useParams } from 'react-router-dom';
 import { DonateBox } from '../../components';
-import { DonationTarget } from '../../interfaces';
+import { useTargets } from '../../hooks';
 import './Donate.scss';
 
 const Donate: FC = () => {
-  const target: DonationTarget = {
-    id: '1',
-    title: 'Title',
-    description: 'Lorem ipsum',
-    collected: 1,
-    goal: 4,
-  };
+  const targets = useTargets();
+  const { id } = useParams();
+  const target = targets?.find(target => target.id === id);
+
+  if (!target) {
+    return null;
+  }
 
   return (
     <div className="donate">

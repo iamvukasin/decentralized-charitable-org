@@ -1,12 +1,22 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { NavigationBar } from './components';
+import { useTargets } from './hooks';
+import { subscribeTargets } from './hooks/useTargets';
 
-const App: FC = () => (
-  <div className="app">
-    <NavigationBar />
-    <Outlet />
-  </div>
-);
+const App: FC = () => {
+  useTargets();
+
+  useEffect(() => {
+    subscribeTargets();
+  }, []);
+
+  return (
+    <div className="app">
+      <NavigationBar />
+      <Outlet />
+    </div>
+  );
+};
 
 export default App;
