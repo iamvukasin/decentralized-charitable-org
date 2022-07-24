@@ -1,6 +1,5 @@
 import { connect } from '@argent/get-starknet';
 import { FC, memo, useCallback, useMemo, useState } from 'react';
-import { AccountInterface } from 'starknet';
 import { useWalletAccount } from '../../hooks';
 import { Button } from '../shared';
 import './Wallet.scss';

@@ -18,7 +18,13 @@ const NumberInput: FC<NumberInputProps> = props => {
 
   return (
     <div className="number-input">
-      <input type="text" pattern="[0-9,]*[.]?[0-9]{0,18}" value={textValue} onChange={handleValueChange} />
+      <input
+        type="text"
+        pattern="[0-9,]*[.]?[0-9]{0,18}"
+        value={textValue}
+        placeholder="0"
+        onChange={handleValueChange}
+      />
     </div>
   );
 };
