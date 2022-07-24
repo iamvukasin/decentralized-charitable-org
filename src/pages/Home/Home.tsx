@@ -22,6 +22,7 @@ const Home = () => {
                 description={target.description}
                 collected={target.collected}
                 goal={target.goal}
+                key={target.id}
               />
             ))}
           </TargetCardsGrid>
