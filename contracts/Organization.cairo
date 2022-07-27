@@ -10,7 +10,7 @@ from starkware.cairo.common.uint256 import Uint256
 #
 
 @constructor
-func constructor{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(owner: felt):
+func constructor{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(owner : felt):
     Ownable.initializer(owner)
     return ()
 end
@@ -20,9 +20,9 @@ end
 #
 
 @view
-func targetGet{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
-    target: felt
-) -> (target: TargetBalances.TargetWrapper):
+func targetGet{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    target : felt
+) -> (target : TargetBalances.TargetWrapper):
     return TargetBalances.targetGet(target)
 end
 
@@ -31,17 +31,15 @@ end
 #
 
 @external
-func initTarget{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(goal: Uint256):
+func initTarget{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(goal : Uint256):
     Ownable.assert_only_owner()
     TargetBalances.initTarget(goal)
     return ()
 end
 
 @external
-func donate{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
-    target: felt,
-    asset: felt,
-    amount: Uint256
+func donate{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    target : felt, asset : felt, amount : Uint256
 ):
     let (owner) = Ownable.owner()
     TargetBalances.donate(owner, target, asset, amount)
