@@ -20,10 +20,10 @@ end
 #
 
 @view
-func targetGet{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+func get_target{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
     target : felt
 ) -> (target : TargetBalances.TargetWrapper):
-    return TargetBalances.targetGet(target)
+    return TargetBalances.get_target(target)
 end
 
 #
@@ -31,9 +31,9 @@ end
 #
 
 @external
-func initTarget{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(goal : Uint256):
+func init_target{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(goal : Uint256):
     Ownable.assert_only_owner()
-    TargetBalances.initTarget(goal)
+    TargetBalances.init_target(goal)
     return ()
 end
 

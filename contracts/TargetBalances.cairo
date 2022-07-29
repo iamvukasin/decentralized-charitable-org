@@ -46,7 +46,7 @@ namespace TargetBalances:
     # Getters
     #
 
-    func targetGet{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    func get_target{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
         _target : felt
     ) -> (target : TargetWrapper):
         let (_targetBalance) = targetBalances.read(_target)
@@ -60,7 +60,7 @@ namespace TargetBalances:
     # Externals
     #
 
-    func initTarget{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    func init_target{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
         _goal : Uint256
     ):
         let (_targetCount) = targetCount.read()
