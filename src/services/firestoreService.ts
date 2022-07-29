@@ -15,7 +15,7 @@ class FirestoreService {
   static async getTargets(): Promise<DonationTarget[]> {
     const targetsCollection = collection(db, 'targets');
     const targetSnapshots = await getDocs(targetsCollection);
-    return targetSnapshots.docs.map(doc => ({ ...doc.data(), id: doc.id, collected: 0 } as DonationTarget));
+    return targetSnapshots.docs.map(doc => ({ ...doc.data(), id: doc.id, collected: 0, goal: 0 } as DonationTarget));
   }
 }
 

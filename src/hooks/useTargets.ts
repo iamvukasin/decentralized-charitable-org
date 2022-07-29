@@ -1,13 +1,33 @@
-import { BehaviorSubject, from, Subscription, tap } from 'rxjs';
+import { BehaviorSubject, from, map, merge, mergeMap, Observable, scan, Subscription, tap } from 'rxjs';
 import { bind } from '@react-rxjs/core';
 import { DonationTarget } from '../interfaces';
-import { FirestoreService } from '../services';
+import { FirestoreService, OrganizationService } from '../services';
 
 const DEFAULT_VALUE: DonationTarget[] | null = null;
 
 const targets$ = new BehaviorSubject<DonationTarget[] | null>(DEFAULT_VALUE);
 
-const stream$ = from(FirestoreService.getTargets()).pipe(tap(targets => targets$.next(targets)));
+const fetchData = (target: DonationTarget): Observable<DonationTarget> =>
+  from(OrganizationService.getTarget(parseInt(target.id))).pipe(
+    map(({ collected, goal }) => ({
+      id: target.id,
+      title: target.title,
+      description: target.description,
+      collected,
+      goal,
+    })),
+  );
+
+const stream$ = from(FirestoreService.getTargets()).pipe(
+  mergeMap(targets => {
+    const fetchedTargets$ = targets.map(fetchData);
+    return merge(...fetchedTargets$);
+  }),
+  scan((allTargets, target) => [target, ...allTargets], [] as DonationTarget[]),
+  tap(targets => {
+    targets$.next(targets);
+  }),
+);
 
 export const [useTargets] = bind(targets$, []);
 

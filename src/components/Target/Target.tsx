@@ -1,11 +1,13 @@
+import BN from 'bn.js';
 import { FC, memo, useMemo } from 'react';
+import { bnToNumber, formatBN } from '../../utils';
 import { Button, LinkButton, ProgressBar } from '../shared';
 import './Target.scss';
 
 interface TargetProps {
   id: string;
-  collected: number;
-  goal: number;
+  collected: BN;
+  goal: BN;
   currency: string;
   disabled?: boolean;
   onDonate?: () => void;
@@ -14,18 +16,23 @@ interface TargetProps {
 const Target: FC<TargetProps> = props => {
   const { id, collected, goal, currency, disabled, onDonate } = props;
 
-  const isFunded = collected >= goal;
+  const collectedNumber = useMemo(() => bnToNumber(collected), [collected]);
+  const formattedCollected = useMemo(() => formatBN(collected, 4), [collected]);
+  const goalNumber = useMemo(() => bnToNumber(goal), [goal]);
+  const formattedGoal = useMemo(() => formatBN(goal, 4), [goal]);
+
+  const isFunded = collected.gte(goal);
   const buttonLabel = isFunded ? 'Funded' : 'Donate';
 
   return (
     <div className="target">
-      <ProgressBar value={collected / goal} />
+      <ProgressBar value={collectedNumber / goalNumber} />
       <div className="target__info">
         <span className="target__collected">
-          {collected} {currency}
+          {formattedCollected} {currency}
         </span>
         <span className="target__goal">
-          {goal} {currency}
+          {formattedGoal} {currency}
         </span>
       </div>
       <div className="target__action">
