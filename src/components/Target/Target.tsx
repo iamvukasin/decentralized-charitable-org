@@ -7,11 +7,12 @@ interface TargetProps {
   collected: number;
   goal: number;
   currency: string;
+  disabled?: boolean;
   onDonate?: () => void;
 }
 
 const Target: FC<TargetProps> = props => {
-  const { id, collected, goal, currency, onDonate } = props;
+  const { id, collected, goal, currency, disabled, onDonate } = props;
 
   const isFunded = collected >= goal;
   const buttonLabel = isFunded ? 'Funded' : 'Donate';
@@ -29,7 +30,7 @@ const Target: FC<TargetProps> = props => {
       </div>
       <div className="target__action">
         {onDonate ? (
-          <Button variant="primary" disabled={isFunded} onClick={onDonate}>
+          <Button variant="primary" disabled={disabled || isFunded} onClick={onDonate}>
             {buttonLabel}
           </Button>
         ) : (
