@@ -3,6 +3,7 @@ import { Abi, Account, Contract, number } from 'starknet';
 import { bnToUint256, uint256ToBN } from 'starknet/dist/utils/uint256';
 import { ETH_ADDRESS, ORGANIZATION_CONTRACT_ADDRESS, WEI_IN_ETH } from '../constants';
 import organizationAbi from '../abi/OrganizationAbi.json';
+import { numberToBN } from '../utils';
 
 export class OrganizationService {
   static async getTarget(targetId: number): Promise<{ collected: BN; goal: BN }> {
@@ -17,7 +18,7 @@ export class OrganizationService {
 
   static async donate(sender: Account, target: number, amount: number) {
     const organization = new Contract(organizationAbi as Abi, ORGANIZATION_CONTRACT_ADDRESS, sender);
-    const normalizedAmount = number.toBN(amount).mul(WEI_IN_ETH);
+    const normalizedAmount = numberToBN(amount);
     await organization.donate(target, ETH_ADDRESS, bnToUint256(normalizedAmount));
   }
 }
