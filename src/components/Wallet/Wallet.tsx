@@ -1,12 +1,13 @@
 import { connect } from '@argent/get-starknet';
-import { FC, memo, useCallback, useMemo, useState } from 'react';
-import { useWalletAccount } from '../../hooks';
-import { Button } from '../shared';
+import { FC, memo, useCallback, useMemo } from 'react';
+import { useBalance, useWalletAccount } from '../../hooks';
+import { formatBN } from '../../utils';
+import { Button, Loading } from '../shared';
 import './Wallet.scss';
 
 const Wallet: FC = () => {
   const [account, setAccount] = useWalletAccount();
-  const [balance, setBalance] = useState<any | null>(null);
+  const balance = useBalance();
 
   const handleWalletConnect = useCallback(async () => {
     const starknet = await connect();
@@ -33,12 +34,13 @@ const Wallet: FC = () => {
           Connect Wallet
         </Button>
       )}
-      {account && shortenedWalletAddress && (
+      {shortenedWalletAddress && balance && (
         <div className="wallet__info">
           <div className="wallet__address">{shortenedWalletAddress}</div>
+          <div className="wallet__balance">{formatBN(balance, 4)} ETH</div>
         </div>
       )}
-      {balance}
+      {shortenedWalletAddress === null || (balance === null && <Loading size="small" />)}
     </div>
   );
 };

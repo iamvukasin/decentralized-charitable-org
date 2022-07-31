@@ -1,5 +1,11 @@
 .wallet {
+  @apply text-right;
+
   .wallet__address {
     @apply font-mono font-medium;
+  }
+
+  .wallet__balance {
+    @apply text-sm text-slate-500 font-medium;
   }
 }

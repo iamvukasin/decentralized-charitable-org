@@ -1,5 +1,3 @@
-import { useTargets } from './useTargets';
-import { useWalletAccount } from './useWalletAccount';
-
-export { useTargets };
-export { useWalletAccount };
+export { useBalance } from './useBalance';
+export { useTargets } from './useTargets';
+export { useWalletAccount } from './useWalletAccount';
