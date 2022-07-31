@@ -1,4 +1,4 @@
 import FirestoreService from './firestoreService';
-import { OrganizationService } from './organization';
+import OrganizationService from './organizationService';
 
 export { FirestoreService, OrganizationService };
