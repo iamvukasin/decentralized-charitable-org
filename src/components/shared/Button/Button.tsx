@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, PropsWithChildren } from 'react';
 import BaseButton, { BaseButtonProps } from '../BaseButton';
 import './Button.scss';
 
@@ -11,7 +11,7 @@ export interface ButtonStyleProps {
 
 type ButtonProps = BaseButtonProps & ButtonStyleProps;
 
-const Button: FC<ButtonProps> = props => {
+const Button: FC<PropsWithChildren<ButtonProps>> = props => {
   const { variant = 'primary', disabled = false, className = '', onClick, children } = props;
 
   return (

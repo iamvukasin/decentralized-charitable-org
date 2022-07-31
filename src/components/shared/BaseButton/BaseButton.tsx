@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, PropsWithChildren } from 'react';
 import './BaseButton.scss';
 
 export interface BaseButtonProps {
@@ -6,7 +6,7 @@ export interface BaseButtonProps {
   onClick: () => void;
 }
 
-const BaseButton: FC<BaseButtonProps> = props => {
+const BaseButton: FC<PropsWithChildren<BaseButtonProps>> = props => {
   const { className = '', onClick, children } = props;
 
   return (

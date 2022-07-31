@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 import { useWalletAccount } from '../../hooks';
 import { DonationTarget } from '../../interfaces';
 import { OrganizationService } from '../../services';
@@ -34,4 +34,4 @@ const DonateBox: FC<DonateBoxProps> = props => {
   );
 };
 
-export default DonateBox;
+export default memo(DonateBox);

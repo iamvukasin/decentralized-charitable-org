@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 type LoadingSize = 'small' | 'large';
 
@@ -34,4 +34,4 @@ const Loading: FC<LoadingProps> = props => {
   );
 };
 
-export default Loading;
+export default memo(Loading);

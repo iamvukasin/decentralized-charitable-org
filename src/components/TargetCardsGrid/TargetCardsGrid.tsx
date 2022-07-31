@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { FC, memo, PropsWithChildren } from 'react';
 import './TargetCardsGrid.scss';
 
-const TargetCardsGrid: FC = props => {
+const TargetCardsGrid: FC<PropsWithChildren> = props => {
   const { children } = props;
 
   return <div className="target-cards-grid">{children}</div>;
 };
 
-export default TargetCardsGrid;
+export default memo(TargetCardsGrid);
