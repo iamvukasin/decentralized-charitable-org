@@ -31,9 +31,11 @@ end
 #
 
 @external
-func init_target{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(goal : Uint256):
+func init_target{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    goal : Uint256, deadline : felt
+):
     Ownable.assert_only_owner()
-    TargetBalances.init_target(goal)
+    TargetBalances.init_target(goal, deadline)
     return ()
 end
 
@@ -43,5 +45,14 @@ func donate{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
 ):
     let (owner) = Ownable.owner()
     TargetBalances.donate(owner, target, asset, amount)
+    return ()
+end
+
+@external
+func priority_donate{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    asset : felt, amount : Uint256
+):
+    let (owner) = Ownable.owner()
+    TargetBalances.priority_donate(owner, asset, amount)
     return ()
 end
