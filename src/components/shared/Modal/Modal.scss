@@ -1,0 +1,20 @@
+.modal-overlay {
+  @apply w-full h-full fixed top-0 left-0 z-[9998] bg-black bg-opacity-50;
+}
+
+.modal {
+  @apply w-[80%] max-w-lg fixed top-[50%] left-[50%] p-5 z-[9999] bg-white rounded-md -translate-x-[50%]
+    -translate-y-[50%];
+
+  .modal__content {
+    @apply flex flex-col;
+  }
+
+  .modal__header {
+    @apply mb-4 flex justify-end;
+  }
+
+  .modal__body {
+    @apply max-h-96 flex flex-col overflow-y-auto;
+  }
+}
