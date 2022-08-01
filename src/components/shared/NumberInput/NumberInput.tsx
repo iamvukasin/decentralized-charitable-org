@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, memo, useCallback, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useMemo, useState } from 'react';
 import './NumberInput.scss';
 
 interface NumberInputProps {
@@ -22,7 +22,7 @@ const NumberInput: FC<NumberInputProps> = props => {
         type="text"
         pattern="[0-9,]*[.]?[0-9]{0,18}"
         value={textValue}
-        placeholder="0"
+        placeholder="0.0000"
         onChange={handleValueChange}
       />
     </div>

@@ -1,0 +1,21 @@
+.donate-org-modal {
+  .number-input {
+    @apply my-4;
+  }
+
+  .donate-org-modal__choices {
+    @apply flex flex-col;
+
+    label {
+      @apply flex content-center;
+
+      input[type='radio'] {
+        @apply mr-2;
+      }
+    }
+  }
+
+  .donate-org-modal__button-container {
+    @apply mt-4 flex justify-end;
+  }
+}

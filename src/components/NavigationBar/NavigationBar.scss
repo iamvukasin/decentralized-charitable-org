@@ -4,4 +4,12 @@
   .navigation-bar__title {
     @apply text-3xl font-bold;
   }
+
+  .navigation-bar__buttons {
+    @apply flex items-center;
+  }
+
+  .navigation-bar__donate-button {
+    @apply mr-6;
+  }
 }

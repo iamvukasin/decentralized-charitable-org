@@ -18,6 +18,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = props => {
     <BaseButton
       className={`button button--${variant} ${disabled ? 'button--disabled' : ''} ${className}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </BaseButton>
