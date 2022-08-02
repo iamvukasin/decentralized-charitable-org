@@ -56,3 +56,12 @@ func priority_donate{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_che
     TargetBalances.priority_donate(owner, asset, amount)
     return ()
 end
+
+@external
+func donate_equally{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    asset : felt, amount : Uint256
+):
+    let (owner) = Ownable.owner()
+    TargetBalances.donate_equally(owner, asset, amount)
+    return ()
+end

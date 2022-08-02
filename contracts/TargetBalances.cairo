@@ -1,12 +1,12 @@
 %lang starknet
 
-from contracts.Utils import is_gt, is_lt, uint256_gt
+from contracts.Utils import is_gt, is_lt, uint256_gt, uint256_gte
 from openzeppelin.security.safemath import SafeUint256
 from openzeppelin.token.erc20.interfaces.IERC20 import IERC20
 from starkware.cairo.common.bool import FALSE, TRUE
 from starkware.cairo.common.cairo_builtins import HashBuiltin
 from starkware.cairo.common.math import assert_lt
-from starkware.cairo.common.uint256 import Uint256, uint256_sub
+from starkware.cairo.common.uint256 import Uint256, uint256_eq, uint256_sub
 from starkware.starknet.common.syscalls import get_caller_address
 
 #
@@ -52,6 +52,18 @@ namespace TargetBalances:
     # Helpers
     #
 
+    func is_funded{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+        target : felt
+    ) -> (funded : felt):
+        alloc_locals
+
+        let (_balance) = targetBalances.read(target)
+        let (_goal) = targetGoals.read(target)
+        let (_funded) = uint256_gte(_balance, _goal)
+
+        return (_funded)
+    end
+
     func get_most_urgent_target{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
         best_target : felt, index : felt, best_left_to_goal : Uint256, min_deadline : felt
     ) -> (target : felt):
@@ -94,6 +106,50 @@ namespace TargetBalances:
         end
 
         return get_most_urgent_target(index, index + 1, _left, _deadline)
+    end
+
+    func get_unfunded_count{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+        index : felt
+    ) -> (count : felt):
+        alloc_locals
+
+        let (_targetCount) = targetCount.read()
+
+        if index == _targetCount:
+            return (0)
+        end
+
+        let (_previousCount) = get_unfunded_count(index + 1)
+        let (_funded) = is_funded(index)
+
+        if _funded == FALSE:
+            return (_previousCount + 1)
+        end
+
+        return (_previousCount)
+    end
+
+    func donate_unfunded_each{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+        index : felt, organization : felt, asset : felt, amount : Uint256
+    ):
+        alloc_locals
+
+        let (_targetCount) = targetCount.read()
+
+        if index == _targetCount:
+            return ()
+        end
+
+        let (_funded) = is_funded(index)
+
+        if _funded == FALSE:
+            donate(organization, index, asset, amount)
+            donate_unfunded_each(index + 1, organization, asset, amount)
+            return ()
+        end
+
+        donate_unfunded_each(index + 1, organization, asset, amount)
+        return ()
     end
 
     #
@@ -155,10 +211,23 @@ namespace TargetBalances:
     ):
         alloc_locals
 
-        let (senderAddress) = get_caller_address()
         let (_target) = get_most_urgent_target(0, 0, Uint256(0, 0), 0)
 
         donate(_organization, _target, asset, _amount)
+
+        return ()
+    end
+
+    func donate_equally{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+        _organization : felt, asset : felt, _amount : Uint256
+    ):
+        alloc_locals
+
+        let (_unfundedCount) = get_unfunded_count(0)
+        let unfundedCount = Uint256(_unfundedCount, 0)
+        let (_amountPerTarget, rem) = SafeUint256.div_rem(_amount, unfundedCount)
+
+        donate_unfunded_each(0, _organization, asset, _amountPerTarget)
 
         return ()
     end
