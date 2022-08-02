@@ -65,3 +65,12 @@ func donate_equally{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_chec
     TargetBalances.donate_equally(owner, asset, amount)
     return ()
 end
+
+@external
+func best_fit_donate{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    asset : felt, amount : Uint256
+):
+    let (owner) = Ownable.owner()
+    TargetBalances.best_fit_donate(owner, asset, amount)
+    return ()
+end

@@ -1,12 +1,12 @@
 %lang starknet
 
-from contracts.Utils import is_gt, is_lt, uint256_gt, uint256_gte
+from contracts.Utils import is_gt, is_lt, uint256_gt, uint256_gte, uint256_lt
 from openzeppelin.security.safemath import SafeUint256
 from openzeppelin.token.erc20.interfaces.IERC20 import IERC20
 from starkware.cairo.common.bool import FALSE, TRUE
 from starkware.cairo.common.cairo_builtins import HashBuiltin
-from starkware.cairo.common.math import assert_lt
-from starkware.cairo.common.uint256 import Uint256, uint256_eq, uint256_sub
+from starkware.cairo.common.math import assert_lt, assert_not_zero, assert_not_equal
+from starkware.cairo.common.uint256 import ALL_ONES, Uint256, uint256_eq, uint256_sub
 from starkware.starknet.common.syscalls import get_caller_address
 
 #
@@ -152,6 +152,37 @@ namespace TargetBalances:
         return ()
     end
 
+    func get_best_fit_target{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+        index : felt, amount : Uint256
+    ) -> (target : felt, fit_diff : Uint256):
+        alloc_locals
+
+        let (_targetCount) = targetCount.read()
+
+        if index == _targetCount:
+            let max_uint256 = Uint256(ALL_ONES, ALL_ONES)
+            return (-1, max_uint256)
+        end
+
+        let (best_target, best_fit_diff) = get_best_fit_target(index + 1, amount)
+
+        let (_targetBalance) = targetBalances.read(index)
+        let (_targetGoal) = targetGoals.read(index)
+        let (_left) = uint256_sub(_targetGoal, _targetBalance)
+        let (fit_diff) = uint256_sub(_left, amount)
+        let (is_fit_diff_non_neg) = uint256_gte(fit_diff, Uint256(0, 0))
+
+        if is_fit_diff_non_neg == TRUE:
+            let (is_better_fit) = uint256_lt(fit_diff, best_fit_diff)
+
+            if is_better_fit == TRUE:
+                return (index, fit_diff)
+            end
+        end
+
+        return (best_target, best_fit_diff)
+    end
+
     #
     # Getters
     #
@@ -224,10 +255,31 @@ namespace TargetBalances:
         alloc_locals
 
         let (_unfundedCount) = get_unfunded_count(0)
+
+        with_attr error_message("TargetBalances: all targets funded"):
+            assert_not_zero(_unfundedCount)
+        end
+
         let unfundedCount = Uint256(_unfundedCount, 0)
         let (_amountPerTarget, rem) = SafeUint256.div_rem(_amount, unfundedCount)
 
         donate_unfunded_each(0, _organization, asset, _amountPerTarget)
+
+        return ()
+    end
+
+    func best_fit_donate{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+        _organization : felt, asset : felt, _amount : Uint256
+    ):
+        alloc_locals
+
+        let (_target, diff) = get_best_fit_target(0, _amount)
+
+        with_attr error_message("TargetBalances: all targets funded"):
+            assert_not_equal(_target, -1)
+        end
+
+        donate(_organization, _target, asset, _amount)
 
         return ()
     end

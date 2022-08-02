@@ -46,3 +46,7 @@ func uint256_gte{range_check_ptr}(a : Uint256, b : Uint256) -> (res : felt):
 
     return (FALSE)
 end
+
+func uint256_lt{range_check_ptr}(a : Uint256, b : Uint256) -> (res : felt):
+    return uint256_gt(b, a)
+end
