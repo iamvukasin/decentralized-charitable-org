@@ -28,7 +28,7 @@ const DonateBox: FC<DonateBoxProps> = props => {
 
   return (
     <div className="donate-box">
-      <NumberInput onValueChange={setAmount} />
+      <NumberInput disabled={disabled} onValueChange={setAmount} />
       <Target id={id} collected={collected} goal={goal} currency="ETH" disabled={disabled} onDonate={handleDonate} />
     </div>
   );

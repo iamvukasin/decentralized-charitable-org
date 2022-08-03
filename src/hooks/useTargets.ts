@@ -24,6 +24,7 @@ const stream$ = from(FirestoreService.getTargets()).pipe(
     return merge(...fetchedTargets$);
   }),
   scan((allTargets, target) => [target, ...allTargets], [] as DonationTarget[]),
+  map(targets => targets.sort((a, b) => parseInt(a.id) - parseInt(b.id))),
   tap(targets => {
     targets$.next(targets);
   }),

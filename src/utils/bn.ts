@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import { DEFAULT_PRECISION } from '../constants';
 
 export function numberToBN(number: number): BN {
-  const text = number.toString();
+  const text = number.toFixed(DEFAULT_PRECISION);
   const [integer, fractional] = text.split('.');
 
   if (fractional.length > DEFAULT_PRECISION) {
