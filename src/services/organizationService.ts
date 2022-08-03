@@ -7,8 +7,7 @@ import { numberToBN } from '../utils';
 
 export default class OrganizationService {
   static async getTarget(targetId: number): Promise<{ collected: BN; goal: BN }> {
-    const organization = new Contract(organizationAbi as Abi, ORGANIZATION_CONTRACT_ADDRESS);
-    const [target] = await organization.get_target(targetId);
+    const [target] = await this.getContract().get_target(targetId);
 
     return {
       collected: uint256ToBN(target.balance),
@@ -17,8 +16,26 @@ export default class OrganizationService {
   }
 
   static async donate(sender: Account, target: number, amount: number) {
-    const organization = new Contract(organizationAbi as Abi, ORGANIZATION_CONTRACT_ADDRESS, sender);
     const normalizedAmount = numberToBN(amount);
-    await organization.donate(target, ETH_ADDRESS, bnToUint256(normalizedAmount));
+    await this.getContract(sender).donate(target, ETH_ADDRESS, bnToUint256(normalizedAmount));
+  }
+
+  static async priorityDonate(sender: Account, amount: number) {
+    const normalizedAmount = numberToBN(amount);
+    await this.getContract(sender).priority_donate(ETH_ADDRESS, bnToUint256(normalizedAmount));
+  }
+
+  static async donateEqually(sender: Account, amount: number) {
+    const normalizedAmount = numberToBN(amount);
+    await this.getContract(sender).donate_equally(ETH_ADDRESS, bnToUint256(normalizedAmount));
+  }
+
+  static async bestFitDonate(sender: Account, amount: number) {
+    const normalizedAmount = numberToBN(amount);
+    await this.getContract(sender).best_fit_donate(ETH_ADDRESS, bnToUint256(normalizedAmount));
+  }
+
+  private static getContract(sender?: Account): Contract {
+    return new Contract(organizationAbi as Abi, ORGANIZATION_CONTRACT_ADDRESS, sender);
   }
 }

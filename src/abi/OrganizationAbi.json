@@ -27,10 +27,15 @@
         "name": "goal",
         "offset": 2,
         "type": "Uint256"
+      },
+      {
+        "name": "deadline",
+        "offset": 4,
+        "type": "felt"
       }
     ],
     "name": "TargetWrapper",
-    "size": 4,
+    "size": 5,
     "type": "struct"
   },
   {
@@ -104,6 +109,10 @@
       {
         "name": "goal",
         "type": "Uint256"
+      },
+      {
+        "name": "deadline",
+        "type": "felt"
       }
     ],
     "name": "init_target",
@@ -126,6 +135,51 @@
       }
     ],
     "name": "donate",
+    "outputs": [],
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "felt"
+      },
+      {
+        "name": "amount",
+        "type": "Uint256"
+      }
+    ],
+    "name": "priority_donate",
+    "outputs": [],
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "felt"
+      },
+      {
+        "name": "amount",
+        "type": "Uint256"
+      }
+    ],
+    "name": "donate_equally",
+    "outputs": [],
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "felt"
+      },
+      {
+        "name": "amount",
+        "type": "Uint256"
+      }
+    ],
+    "name": "best_fit_donate",
     "outputs": [],
     "type": "function"
   }

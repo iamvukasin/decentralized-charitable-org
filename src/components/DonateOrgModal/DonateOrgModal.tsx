@@ -1,5 +1,6 @@
 import { FC, useCallback, useState } from 'react';
 import { useWalletAccount } from '../../hooks';
+import { OrganizationService } from '../../services';
 import { Button, NumberInput } from '../shared';
 import Modal, { ModalProps } from '../shared/Modal';
 
@@ -16,8 +17,29 @@ const DonateOrgModal: FC<DonateOrgModalProps> = props => {
   const [donationVariant, setDonationVariant] = useState<DonationVariant>('priority');
 
   const handleDonation = useCallback(() => {
-    onClose();
-  }, [onClose]);
+    if (!account) {
+      return;
+    }
+
+    switch (donationVariant) {
+      case 'priority':
+        OrganizationService.priorityDonate(account, amount);
+        break;
+
+      case 'equally':
+        OrganizationService.donateEqually(account, amount);
+        break;
+
+      case 'bestfit':
+        OrganizationService.bestFitDonate(account, amount);
+        break;
+    }
+
+    setTimeout(() => {
+      setDonationVariant('priority');
+      setAmount(0);
+    }, 750);
+  }, [account, amount, donationVariant, onClose]);
 
   return (
     <Modal className="donate-org-modal" open={open} onClose={onClose}>
