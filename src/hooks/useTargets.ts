@@ -1,9 +1,22 @@
-import { BehaviorSubject, from, map, merge, mergeMap, Observable, scan, Subscription, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  debounce,
+  from,
+  interval,
+  map,
+  merge,
+  mergeMap,
+  Observable,
+  scan,
+  Subscription,
+  tap,
+} from 'rxjs';
 import { bind } from '@react-rxjs/core';
 import { DonationTarget } from '../interfaces';
 import { FirestoreService, OrganizationService } from '../services';
 
 const DEFAULT_VALUE: DonationTarget[] | null = null;
+const DEBOUNCE_IN_MS = 750;
 
 const targets$ = new BehaviorSubject<DonationTarget[] | null>(DEFAULT_VALUE);
 
@@ -25,6 +38,7 @@ const stream$ = from(FirestoreService.getTargets()).pipe(
   }),
   scan((allTargets, target) => [target, ...allTargets], [] as DonationTarget[]),
   map(targets => targets.sort((a, b) => parseInt(a.id) - parseInt(b.id))),
+  debounce(() => interval(DEBOUNCE_IN_MS)),
   tap(targets => {
     targets$.next(targets);
   }),
