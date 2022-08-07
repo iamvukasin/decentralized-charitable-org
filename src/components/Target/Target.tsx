@@ -8,13 +8,14 @@ interface TargetProps {
   id: string;
   collected: BN;
   goal: BN;
+  deadline: number;
   currency: string;
   disabled?: boolean;
   onDonate?: () => void;
 }
 
 const Target: FC<TargetProps> = props => {
-  const { id, collected, goal, currency, disabled, onDonate } = props;
+  const { id, collected, goal, deadline, currency, disabled, onDonate } = props;
 
   const collectedNumber = useMemo(() => bnToNumber(collected), [collected]);
   const formattedCollected = useMemo(() => formatBN(collected, 4), [collected]);
@@ -22,7 +23,8 @@ const Target: FC<TargetProps> = props => {
   const formattedGoal = useMemo(() => formatBN(goal, 4), [goal]);
 
   const isFunded = collected.gte(goal);
-  const buttonLabel = isFunded ? 'Funded' : 'Donate';
+  const isEnded = Date.now() > deadline;
+  const buttonLabel = isFunded ? 'Funded' : isEnded ? 'Ended' : 'Donate';
 
   return (
     <div className="target">
@@ -37,7 +39,7 @@ const Target: FC<TargetProps> = props => {
       </div>
       <div className="target__action">
         {onDonate ? (
-          <Button variant="primary" disabled={disabled || isFunded} onClick={onDonate}>
+          <Button variant="primary" disabled={disabled || isFunded || isEnded} onClick={onDonate}>
             {buttonLabel}
           </Button>
         ) : (

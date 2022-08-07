@@ -13,12 +13,13 @@ const provider = new RpcProvider({
 });
 
 export default class OrganizationService {
-  static async getTarget(targetId: number): Promise<{ collected: BN; goal: BN }> {
+  static async getTarget(targetId: number): Promise<{ collected: BN; goal: BN; deadline: number }> {
     const [target] = await this.getContract().get_target(targetId);
 
     return {
       collected: uint256ToBN(target.balance),
       goal: uint256ToBN(target.goal),
+      deadline: target.deadline.toNumber(),
     };
   }
 

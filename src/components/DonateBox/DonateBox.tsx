@@ -12,7 +12,7 @@ interface DonateBoxProps {
 
 const DonateBox: FC<DonateBoxProps> = props => {
   const { target } = props;
-  const { id, collected, goal } = target;
+  const { id, collected, goal, deadline } = target;
   const [account] = useWalletAccount();
   const [amount, setAmount] = useState<number | null>(null);
 
@@ -29,7 +29,15 @@ const DonateBox: FC<DonateBoxProps> = props => {
   return (
     <div className="donate-box">
       <NumberInput disabled={account === null} onValueChange={setAmount} />
-      <Target id={id} collected={collected} goal={goal} currency="ETH" disabled={disabled} onDonate={handleDonate} />
+      <Target
+        id={id}
+        collected={collected}
+        goal={goal}
+        deadline={deadline}
+        currency="ETH"
+        disabled={disabled}
+        onDonate={handleDonate}
+      />
     </div>
   );
 };

@@ -25,6 +25,14 @@ const Donate: FC = () => {
 
   const target = useMemo(() => targets?.find(target => target.id === id), [id, targets]);
 
+  const deadline = useMemo(() => {
+    if (!target) {
+      return undefined;
+    }
+
+    return new Date(target.deadline).toLocaleDateString('en-GB');
+  }, [target]);
+
   if (numberId === undefined || !target) {
     return null;
   }
@@ -33,6 +41,7 @@ const Donate: FC = () => {
     <div className="donate">
       <div className="donate__info">
         <h1 className="donate__title">{target.title}</h1>
+        <span className="donate__deadline">Deadline: {deadline}</span>
         <p className="donate__description">{target.description}</p>
         {tableVisible && <DonationsForTargetTable target={numberId} />}
       </div>

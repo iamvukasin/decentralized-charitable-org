@@ -6,7 +6,11 @@
   }
 
   .donate__title {
-    @apply mb-6 text-5xl font-semibold;
+    @apply mb-2 text-5xl font-semibold;
+  }
+
+  .donate__deadline {
+    @apply mb-8 block text-sm text-slate-500;
   }
 
   .donate__donate-box-container {

@@ -22,10 +22,11 @@ const targets$ = new BehaviorSubject<DonationTarget[] | null>(DEFAULT_VALUE);
 
 const fetchData = (target: DonationTarget): Observable<DonationTarget> =>
   from(OrganizationService.getTarget(parseInt(target.id))).pipe(
-    map(({ collected, goal }) => ({
+    map(({ collected, goal, deadline }) => ({
       id: target.id,
       title: target.title,
       description: target.description,
+      deadline,
       collected,
       goal,
     })),
