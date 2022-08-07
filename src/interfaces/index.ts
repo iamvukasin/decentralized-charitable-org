@@ -1,3 +1,4 @@
+import Donation from './donation';
 import DonationTarget from './donationTarget';
 
-export type { DonationTarget };
+export type { Donation, DonationTarget };

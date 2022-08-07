@@ -1,11 +1,12 @@
 import { FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { NavigationBar } from './components';
-import { useTargets } from './hooks';
+import { useDonationsForTarget, useTargets } from './hooks';
 import { subscribeTargets } from './hooks/useTargets';
 
 const App: FC = () => {
   useTargets();
+  useDonationsForTarget();
 
   useEffect(() => {
     subscribeTargets();

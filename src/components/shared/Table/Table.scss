@@ -1,0 +1,23 @@
+.table {
+  @apply table-auto w-full my-8;
+
+  .table__header {
+    @apply table-header-group;
+  }
+
+  .table__body {
+    @apply table-row-group;
+  }
+
+  .table__row {
+    @apply table-row;
+  }
+
+  .table__header-cell {
+    @apply p-4 pl-8 pt-0 pb-3 table-cell font-medium text-slate-400 text-left border-b;
+  }
+
+  .table__cell {
+    @apply p-4 pl-8 table-cell border-b border-slate-100 text-slate-500;
+  }
+}

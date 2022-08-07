@@ -5,5 +5,8 @@ import Loading from './Loading';
 import Modal from './Modal';
 import NumberInput from './NumberInput';
 import ProgressBar from './ProgressBar';
+import Table from './Table';
 
-export { BaseButton, Button, LinkButton, Loading, Modal, NumberInput, ProgressBar };
+export { BaseButton, Button, LinkButton, Loading, Modal, NumberInput, ProgressBar, Table };
+
+export * from './Table';

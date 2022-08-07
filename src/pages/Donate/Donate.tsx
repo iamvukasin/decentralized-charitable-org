@@ -1,15 +1,31 @@
-import { FC } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { DonateBox } from '../../components';
+import { DonateBox, DonationsForTargetTable } from '../../components';
 import { useTargets } from '../../hooks';
 import './Donate.scss';
 
 const Donate: FC = () => {
   const targets = useTargets();
+  const [tableVisible, setTableVisible] = useState(false);
   const { id } = useParams();
-  const target = targets?.find(target => target.id === id);
 
-  if (!target) {
+  useEffect(() => {
+    setTimeout(() => {
+      setTableVisible(true);
+    }, 500);
+  });
+
+  const numberId = useMemo(() => {
+    if (!id) {
+      return undefined;
+    }
+
+    return parseInt(id);
+  }, [id]);
+
+  const target = useMemo(() => targets?.find(target => target.id === id), [id, targets]);
+
+  if (numberId === undefined || !target) {
     return null;
   }
 
@@ -18,8 +34,11 @@ const Donate: FC = () => {
       <div className="donate__info">
         <h1 className="donate__title">{target.title}</h1>
         <p className="donate__description">{target.description}</p>
+        {tableVisible && <DonationsForTargetTable target={numberId} />}
       </div>
-      <DonateBox target={target} />
+      <div className="donate__donate-box-container">
+        <DonateBox target={target} />
+      </div>
     </div>
   );
 };
