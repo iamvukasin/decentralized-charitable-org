@@ -1,13 +1,19 @@
 import { connect } from '@argent/get-starknet';
-import { FC, memo, useCallback, useMemo } from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { useBalance, useWalletAccount } from '../../hooks';
 import { formatBN } from '../../utils';
-import { Button, Loading } from '../shared';
+import { BaseButton, Button, Loading } from '../shared';
+import UserDonationsModal from '../UserDonationsModal';
 import './Wallet.scss';
 
 const Wallet: FC = () => {
   const [account, setAccount] = useWalletAccount();
   const balance = useBalance();
+  const [openModal, setOpenModal] = useState(false);
+
+  const openUserDonationsModal = useCallback(() => setOpenModal(true), []);
+
+  const closeUserDonationsModal = useCallback(() => setOpenModal(false), []);
 
   const handleWalletConnect = useCallback(async () => {
     const starknet = await connect();
@@ -28,20 +34,23 @@ const Wallet: FC = () => {
   );
 
   return (
-    <div className="wallet">
-      {!account && (
-        <Button variant="neutral" onClick={handleWalletConnect}>
-          Connect Wallet
-        </Button>
-      )}
-      {shortenedWalletAddress && balance && (
-        <div className="wallet__info">
-          <div className="wallet__address">{shortenedWalletAddress}</div>
-          <div className="wallet__balance">{formatBN(balance, 4)} ETH</div>
-        </div>
-      )}
-      {shortenedWalletAddress === null || (balance === null && <Loading size="small" />)}
-    </div>
+    <>
+      <div className="wallet">
+        {!account && (
+          <Button variant="neutral" onClick={handleWalletConnect}>
+            Connect Wallet
+          </Button>
+        )}
+        {shortenedWalletAddress && balance && (
+          <BaseButton className="wallet__info" onClick={openUserDonationsModal}>
+            <div className="wallet__address">{shortenedWalletAddress}</div>
+            <div className="wallet__balance">{formatBN(balance, 4)} ETH</div>
+          </BaseButton>
+        )}
+        {shortenedWalletAddress === null || (balance === null && <Loading size="small" />)}
+      </div>
+      <UserDonationsModal open={openModal} onClose={closeUserDonationsModal} />
+    </>
   );
 };
 

@@ -1,6 +1,10 @@
 .wallet {
   @apply text-right;
 
+  .wallet__info {
+    @apply text-left;
+  }
+
   .wallet__address {
     @apply font-mono font-medium;
   }
