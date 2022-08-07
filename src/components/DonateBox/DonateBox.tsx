@@ -24,11 +24,11 @@ const DonateBox: FC<DonateBoxProps> = props => {
     }
 
     OrganizationService.donate(account, parseInt(target.id), amount);
-  }, [amount]);
+  }, [account, amount, disabled, target.id]);
 
   return (
     <div className="donate-box">
-      <NumberInput disabled={disabled} onValueChange={setAmount} />
+      <NumberInput disabled={account === null} onValueChange={setAmount} />
       <Target id={id} collected={collected} goal={goal} currency="ETH" disabled={disabled} onDonate={handleDonate} />
     </div>
   );

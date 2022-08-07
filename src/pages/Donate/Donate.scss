@@ -2,16 +2,18 @@
   @apply p-8 flex;
 
   .donate__info {
-    @apply mr-6;
-    flex: 3;
+    @apply mr-6 flex-[3];
   }
 
   .donate__title {
     @apply mb-6 text-5xl font-semibold;
   }
 
-  .donate-box {
-    @apply p-6 border rounded-lg;
-    flex: 1;
+  .donate__donate-box-container {
+    @apply flex-1;
+
+    .donate-box {
+      @apply p-6 border rounded-lg;
+    }
   }
 }
