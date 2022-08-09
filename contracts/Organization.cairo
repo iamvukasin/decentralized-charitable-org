@@ -102,3 +102,15 @@ func best_fit_donate{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_che
     TargetBalances.best_fit_donate(owner, asset, amount)
     return ()
 end
+
+@external
+func oracle_donate{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    target : felt, asset : felt, amount : Uint256
+):
+    Ownable.assert_only_owner()
+    checkIfPositiveAmount(amount)
+
+    let (owner) = Ownable.owner()
+    TargetBalances.donate(owner, target, asset, amount)
+    return ()
+end
