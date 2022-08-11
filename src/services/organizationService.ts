@@ -79,6 +79,7 @@ export default class OrganizationService {
           .map(eventData => {
             const [donator, asset, amountLow, amountHigh, targetId] = eventData.data;
             return {
+              tx: eventData.transaction_hash,
               donator,
               asset,
               amount: uint256ToBN({ low: new BN(amountLow.slice(2), 'hex'), high: new BN(amountHigh.slice(2), 'hex') }),
