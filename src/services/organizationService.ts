@@ -1,12 +1,17 @@
 import BN from 'bn.js';
 import { from, map, Observable } from 'rxjs';
-import { Abi, Account, Contract, RpcProvider } from 'starknet';
+import { Abi, AccountInterface, Contract, RpcProvider } from 'starknet';
 import { bnToUint256, uint256ToBN } from 'starknet/dist/utils/uint256';
 import { ETH_ADDRESS, ORGANIZATION_CONTRACT_ADDRESS } from '../constants';
 import organizationAbi from '../abi/OrganizationAbi.json';
 import { numberToBN } from '../utils';
 import { Donation } from '../interfaces';
 import { RPC } from 'starknet/dist/types/api';
+
+interface EventData {
+  transaction_hash: string;
+  data: string[];
+}
 
 const provider = new RpcProvider({
   nodeUrl: `https://${import.meta.env.VITE_RPC_PROVIDER_URL}`,
@@ -25,27 +30,27 @@ export default class OrganizationService {
 
   // Donation options
 
-  static async donate(sender: Account, target: number, amount: number) {
+  static async donate(sender: AccountInterface, target: number, amount: number) {
     const normalizedAmount = numberToBN(amount);
     await this.getContract(sender).donate(target, ETH_ADDRESS, bnToUint256(normalizedAmount));
   }
 
-  static async priorityDonate(sender: Account, amount: number) {
+  static async priorityDonate(sender: AccountInterface, amount: number) {
     const normalizedAmount = numberToBN(amount);
     await this.getContract(sender).priority_donate(ETH_ADDRESS, bnToUint256(normalizedAmount));
   }
 
-  static async donateEqually(sender: Account, amount: number) {
+  static async donateEqually(sender: AccountInterface, amount: number) {
     const normalizedAmount = numberToBN(amount);
     await this.getContract(sender).donate_equally(ETH_ADDRESS, bnToUint256(normalizedAmount));
   }
 
-  static async bestFitDonate(sender: Account, amount: number) {
+  static async bestFitDonate(sender: AccountInterface, amount: number) {
     const normalizedAmount = numberToBN(amount);
     await this.getContract(sender).best_fit_donate(ETH_ADDRESS, bnToUint256(normalizedAmount));
   }
 
-  private static getContract(sender?: Account): Contract {
+  private static getContract(sender?: AccountInterface): Contract {
     return new Contract(organizationAbi as Abi, ORGANIZATION_CONTRACT_ADDRESS, sender);
   }
 
@@ -72,7 +77,7 @@ export default class OrganizationService {
 
     return eventsResponse$.pipe(
       map(eventsResponse => {
-        const eventsData = eventsResponse.events;
+        const eventsData = eventsResponse.events as unknown as EventData[];
 
         return eventsData
           .filter(eventData => eventData && eventData.data && eventData.data.length === 5)

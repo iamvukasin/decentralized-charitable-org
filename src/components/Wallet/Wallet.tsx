@@ -1,5 +1,6 @@
 import { connect } from '@argent/get-starknet';
 import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { AccountInterface } from 'starknet';
 import { useBalance, useWalletAccount } from '../../hooks';
 import { formatBN } from '../../utils';
 import { BaseButton, Button, Loading } from '../shared';
@@ -25,7 +26,7 @@ const Wallet: FC = () => {
 
     await starknet.enable();
 
-    setAccount(starknet.account);
+    setAccount(starknet.account as unknown as AccountInterface);
   }, []);
 
   const shortenedWalletAddress = useMemo(

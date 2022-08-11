@@ -20,6 +20,7 @@ const Home = () => {
                 id={target.id}
                 title={target.title}
                 description={target.description}
+                deadline={target.deadline}
                 collected={target.collected}
                 goal={target.goal}
                 key={target.id}

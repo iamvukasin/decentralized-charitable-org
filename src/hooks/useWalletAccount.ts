@@ -1,13 +1,13 @@
 import { state, useStateObservable } from '@react-rxjs/core';
 import { createSignal } from '@react-rxjs/utils';
 import { distinctUntilChanged } from 'rxjs';
-import { Account } from 'starknet';
+import { AccountInterface } from 'starknet';
 
-const [rawWalletAccount$, setWalletAccount] = createSignal<Account | null>();
+const [rawWalletAccount$, setWalletAccount] = createSignal<AccountInterface | null>();
 export const walletAccount$ = rawWalletAccount$.pipe(distinctUntilChanged());
 const stateWalletAccount$ = state(walletAccount$, null);
 
-export const useWalletAccount = (): [Account | null, (account: Account) => void] => {
+export const useWalletAccount = (): [AccountInterface | null, (account: AccountInterface | null) => void] => {
   const walletAccount = useStateObservable(stateWalletAccount$);
 
   return [walletAccount, setWalletAccount];
