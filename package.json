@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "firebase deploy --only hosting:decentralized-charitable-org"
   },
   "dependencies": {
     "@argent/get-starknet": "^4.6.3",
