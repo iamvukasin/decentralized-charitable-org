@@ -21,6 +21,7 @@ const DonationsForTargetTable: FC<DonationsForTargetTableProps> = props => {
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHeaderCell>Tx</TableHeaderCell>
           <TableHeaderCell>Donator</TableHeaderCell>
           <TableHeaderCell>Amount</TableHeaderCell>
         </TableRow>
@@ -29,7 +30,18 @@ const DonationsForTargetTable: FC<DonationsForTargetTableProps> = props => {
         {donations.map((donation, index) => (
           <TableRow key={index}>
             <TableCell>
-              <span className="donations-for-target-table__donator">{donation.donator}</span>
+              <a href={`https://goerli.voyager.online/tx/${donation.tx}`} target="_blank">
+                <span className="donations-for-target-table__transaction">{`${donation.tx.slice(
+                  0,
+                  10,
+                )}...${donation.tx.slice(-8)}`}</span>
+              </a>
+            </TableCell>
+            <TableCell>
+              <span className="donations-for-target-table__donator">{`${donation.donator.slice(
+                0,
+                10,
+              )}...${donation.donator.slice(-8)}`}</span>
             </TableCell>
             <TableCell>{formatBN(donation.amount, DEFAULT_PRECISION, true)} ETH</TableCell>
           </TableRow>

@@ -10,6 +10,6 @@ BUILT_CONTRACT_ABI="$BUILD_DIR/abi.json";
 
 starknet-compile $CONTRACT --output $BUILT_CONTRACT --abi $BUILT_CONTRACT_ABI;
 
-# starknet deploy \
-#     --contract $BUILT_CONTRACT \
-#     --input $ORGANIZATION_OWNER_ADDRESS;
+starknet deploy \
+    --contract $BUILT_CONTRACT \
+    --input $ORGANIZATION_OWNER_ADDRESS;
